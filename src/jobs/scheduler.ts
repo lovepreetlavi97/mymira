@@ -1,7 +1,7 @@
 import cron from 'node-cron';
-import { contentQueue } from './processors';
-import { getRandomTheme } from '../services/character.service';
-import { logger } from '../utils/logger';
+import { contentQueue } from './processors/index.js';
+import { getRandomTheme } from '../services/character.service.js';
+import { logger } from '../utils/logger.js';
 
 export function setupScheduler() {
   // Daily 8 AM: Feed Post Generation

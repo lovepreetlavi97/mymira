@@ -2,7 +2,7 @@ import sharp from 'sharp';
 import ffmpeg from 'fluent-ffmpeg';
 import path from 'path';
 import fs from 'fs/promises';
-import { logger } from '../utils/logger';
+import { logger } from '../utils/logger.js';
 
 export class MediaService {
   async upscaleTo8k(inputPath: string): Promise<string> {

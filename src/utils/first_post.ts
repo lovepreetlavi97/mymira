@@ -1,10 +1,14 @@
 
-import { instagramService } from '../services/instagram.service';
-import { logger } from './logger';
+import { instagramService } from '../services/instagram.service.js';
+import { logger } from './logger.js';
+import { fileURLToPath } from 'url';
 import dotenv from 'dotenv';
 import path from 'path';
 
-dotenv.config({ path: path.resolve(__dirname, '../../../.env') });
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+dotenv.config({ path: path.resolve(__dirname, '../../.env') });
 
 async function makeFirstPost() {
   // Replace with your actual public image URL

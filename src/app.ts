@@ -5,11 +5,11 @@ import swaggerUi from '@fastify/swagger-ui';
 import cors from '@fastify/cors';
 import staticFiles from '@fastify/static';
 import path from 'path';
-import { config } from './config/env';
-import { logger } from './utils/logger';
-import { Post, Lead } from './models/schemas';
-import { contentQueue } from './jobs/processors';
-import { instagramService } from './services/instagram.service';
+import { config } from './config/env.js';
+import { logger } from './utils/logger.js';
+import { Post, Lead } from './models/schemas.js';
+import { contentQueue } from './jobs/processors/index.js';
+import { instagramService } from './services/instagram.service.js';
 
 const fastify = Fastify({
   logger: false, // We use our custom logger

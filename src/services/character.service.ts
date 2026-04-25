@@ -1,4 +1,4 @@
-import { aiProvider } from './ai-provider.service';
+import { aiProvider } from './ai-provider.service.js';
 
 /**
  * MIRA VELOURA - ULTRA-SAFETY IDENTITY DNA

@@ -1,14 +1,15 @@
 import { Queue, Worker, Job } from 'bullmq';
-import { config } from '../../config/env';
-import { aiProvider } from '../../services/ai-provider.service';
-import { mediaService } from '../../services/media.service';
-import { instagramService } from '../../services/instagram.service';
-import { s3Service } from '../../services/s3.service';
-import { getMasterPrompt } from '../../services/character.service';
-import { Post } from '../../models/schemas';
-import { logger } from '../../utils/logger';
-import { MIRA_IDENTITY } from '../../services/character.service';
-import Redis from 'ioredis';
+import path from 'path';
+import { config } from '../../config/env.js';
+import { aiProvider } from '../../services/ai-provider.service.js';
+import { mediaService } from '../../services/media.service.js';
+import { instagramService } from '../../services/instagram.service.js';
+import { s3Service } from '../../services/s3.service.js';
+import { getMasterPrompt } from '../../services/character.service.js';
+import { Post } from '../../models/schemas.js';
+import { logger } from '../../utils/logger.js';
+import { MIRA_IDENTITY } from '../../services/character.service.js';
+import { Redis } from 'ioredis';
 
 const redisUrl = config.REDIS_URL;
 

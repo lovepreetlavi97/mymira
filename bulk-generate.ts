@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { logger } from './src/utils/logger';
+import { logger } from './src/utils/logger.js';
 
 async function bulkGenerate() {
   const themes = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];

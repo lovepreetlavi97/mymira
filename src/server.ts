@@ -1,9 +1,9 @@
 import mongoose from 'mongoose';
-import { buildApp } from './app';
-import { config } from './config/env';
-import { logger } from './utils/logger';
-import { setupScheduler } from './jobs/scheduler';
-import { initializeWorkers } from './jobs/processors';
+import { buildApp } from './app.js';
+import { config } from './config/env.js';
+import { logger } from './utils/logger.js';
+import { setupScheduler } from './jobs/scheduler.js';
+import { initializeWorkers } from './jobs/processors/index.js';
 
 async function start() {
   try {

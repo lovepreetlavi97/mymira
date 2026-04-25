@@ -1,6 +1,6 @@
 import axios from 'axios';
-import { config } from '../config/env';
-import { logger } from '../utils/logger';
+import { config } from '../config/env.js';
+import { logger } from '../utils/logger.js';
 import fs from 'fs/promises';
 import path from 'path';
 
