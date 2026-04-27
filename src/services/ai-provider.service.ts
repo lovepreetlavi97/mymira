@@ -3,15 +3,25 @@ import { config } from '../config/env.js';
 import { logger } from '../utils/logger.js';
 import fs from 'fs/promises';
 import path from 'path';
+import { replicateService } from './replicate.service.js';
 
 export class AiProviderService {
   /**
    * Triple-Layer Production Generation Logic
    */
-  async generateImage(prompt: string, negativePrompt: string, width = 1024, height = 1024): Promise<string> {
-    logger.info({ prompt: prompt.substring(0, 100) + '...' }, '🚀 Initiating Safe Flux Pipeline');
+  async generateImage(prompt: string, negativePrompt: string, width = 1024, height = 1024, useReplicate = false): Promise<string> {
+    logger.info({ prompt: prompt.substring(0, 100) + '...' }, '🚀 Initiating Image Generation');
 
-    if (!config.FLUX_API_KEY) throw new Error('FLUX_API_KEY is required.');
+    // If Replicate is explicitly requested or if it's the only one with a token
+    if (useReplicate || (config.REPLICATE_API_TOKEN && !config.FLUX_API_KEY)) {
+      try {
+        return await replicateService.generateImage(prompt, width, height);
+      } catch (error) {
+        logger.warn('Replicate failed, trying fallbacks...');
+      }
+    }
+
+    if (!config.FLUX_API_KEY) throw new Error('FLUX_API_KEY or REPLICATE_API_TOKEN is required.');
 
     // Strategy: Try Flux-Pro -> Fallback to Flux-Dev -> Final Fallback to Clean Kontext
     const models = ['flux-pro', 'flux-dev', 'flux-kontext-pro'];

@@ -14,6 +14,7 @@ const envSchema = z.object({
   FLUX_API_KEY: z.string().optional(),
   GROQ_API_KEY: z.string().optional(),
   OPENAI_API_KEY: z.string().optional(),
+  REPLICATE_API_TOKEN: z.string().optional(),
   ENABLE_LORA: z.string().default('false').transform(v => v === 'true'),
   
   INSTAGRAM_CLIENT_ID: z.string().optional(),

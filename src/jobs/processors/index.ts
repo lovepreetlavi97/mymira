@@ -4,6 +4,7 @@ import { config } from '../../config/env.js';
 import { aiProvider } from '../../services/ai-provider.service.js';
 import { mediaService } from '../../services/media.service.js';
 import { instagramService } from '../../services/instagram.service.js';
+import fs from 'fs/promises';
 import { s3Service } from '../../services/s3.service.js';
 import { getMasterPrompt } from '../../services/character.service.js';
 import { Post } from '../../models/schemas.js';
@@ -109,6 +110,32 @@ export async function initializeWorkers() {
       throw error;
     }
   }, { connection });
+
+  // --- AUTOMATED TOKEN RENEWAL (Every 30 Days) ---
+  const tokenRefreshQueue = new Queue('token-refresh', { connection });
+  
+  new Worker('token-refresh', async () => {
+    logger.info('🔄 Running scheduled Instagram token renewal...');
+    try {
+      if (!config.INSTAGRAM_ACCESS_TOKEN) return;
+      const newToken = await instagramService.getLongLivedToken(config.INSTAGRAM_ACCESS_TOKEN);
+      
+      // Update .env file persistently
+      const envPath = path.join(process.cwd(), '.env');
+      let envContent = await fs.readFile(envPath, 'utf8');
+      envContent = envContent.replace(/^INSTAGRAM_ACCESS_TOKEN=.*$/m, `INSTAGRAM_ACCESS_TOKEN=${newToken}`);
+      await fs.writeFile(envPath, envContent);
+      
+      logger.info('✅ Token renewed and .env updated successfully.');
+    } catch (error: any) {
+      logger.error({ error: error.message }, '❌ Periodic token renewal failed');
+    }
+  }, { connection });
+
+  // Add a recurring job (Every 30 days)
+  await tokenRefreshQueue.add('monthly-refresh', {}, {
+    repeat: { pattern: '0 0 1 * *' } // Run at 00:00 on day 1 of every month
+  });
 
   logger.info('✅ Redis found. Background workers started.');
 }

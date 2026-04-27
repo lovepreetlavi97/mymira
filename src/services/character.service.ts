@@ -70,4 +70,13 @@ export function getMasterPrompt(theme: string, useLora: boolean = true): string 
   return `${base}, ${safeTheme} --ar 16:9 --v 6.1 --stylize 250`;
 }
 
+/**
+ * REPLICATE OPTIMIZED PROMPT - FOR CONSISTENCY AND DETAIL
+ */
+export function getReplicatePrompt(theme: string): string {
+  // We use the full identity description without the LoRA tag if using standard Flux-Pro
+  // But we add high-detail keywords for consistency.
+  return `A hyper-realistic 8k photo of a 26-year-old adult woman named Mira, ${MIRA_IDENTITY.appearance.skin}, ${MIRA_IDENTITY.appearance.face}, ${MIRA_IDENTITY.appearance.eyes} eyes, ${MIRA_IDENTITY.appearance.jawline} jawline, ${MIRA_IDENTITY.appearance.lips}, ${MIRA_IDENTITY.appearance.hair} hair. ${theme}. ${MIRA_IDENTITY.descriptors.join(', ')}. Shot on Hasselblad, shallow depth of field, sharp focus on face, natural skin pores, 8k resolution.`;
+}
+
 
